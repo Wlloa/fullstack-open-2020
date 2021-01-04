@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 
 const App = (props) => {
   const [selected, setSelected] = useState(0)
-  const [votes, setVotes] = useState([]);
+  const [votes, setVotes] = useState(new Array(props.anecdotes.length).fill(0));
   console.log(votes);
 
   const getNextAnecdote = () => {
@@ -14,21 +14,14 @@ const App = (props) => {
 
   const vote = () => {
     const copy = [...votes];
-    if (!copy[selected]){
-      copy[selected] = 1;
-      setVotes(copy);
-    }
-    else {
-      copy[selected] += 1;
-      setVotes(copy);
-    }
-    
+    copy[selected] += 1;
+    setVotes(copy);
   }
 
   return (
     <div>
       <p>{props.anecdotes[selected]}</p>
-      <p>`has ${votes[selected]?votes[selected]:0} votes`</p>
+      <p>`has ${votes[selected]} votes`</p>
       <button onClick={vote}>vote</button>
       <button onClick={getNextAnecdote}>next anecdote</button>
     </div>
