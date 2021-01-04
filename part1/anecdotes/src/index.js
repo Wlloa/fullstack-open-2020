@@ -18,12 +18,27 @@ const App = (props) => {
     setVotes(copy);
   }
 
+  const mostVotedAnecdote = () => {
+    let max = 0;
+    for(let i = 1; i < votes.length ; i++) {
+      if (votes[i] > votes[max] ) {
+        max = i;
+      }
+    }
+    return props.anecdotes[max];
+  }
+
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <p>{props.anecdotes[selected]}</p>
       <p>`has ${votes[selected]} votes`</p>
       <button onClick={vote}>vote</button>
       <button onClick={getNextAnecdote}>next anecdote</button>
+      <div>
+        <h1>Anecdoty with most votes</h1>
+        {mostVotedAnecdote()}
+      </div>
     </div>
   )
 }
