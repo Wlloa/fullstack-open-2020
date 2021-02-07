@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
+import Detail from './Detail'
 
 function App() {
 
   const url = 'https://restcountries.eu/rest/v2/name'
   const [countries, setCountries] = useState([])
   const [name, setName] = useState('')
+  const [countryDetail, setCountryDetail] = useState(null)
 
   useEffect(() => {
     if (name){
@@ -30,26 +32,16 @@ function App() {
           :
           countries.length > 1 ?
           countries.map(country => (
-          <p key={country.numericCode}>{country.name}</p>
+            <div>
+               <p key={country.numericCode}>{country.name}</p>
+               <button onClick={()=> setCountryDetail(country)}>View</button>
+               
+           </div>
         ))
         :
-        countries.length === 1 ?
-        (
-          <div>
-            <h2>{countries[0].name}</h2>
-            <p>capital: {countries[0].capital}</p>
-            <p>population: {countries[0].population}</p>
-            <h3>languages</h3>
-            <u>
-              {countries[0].languages.map(lang => (
-                <li>{lang.name}</li>
-              ))}
-            </u>
-            <img style={{width:'80px', height:'80px'}} src={countries[0].flag} alt=""/>
-          </div>
-        ):
-        ''
+        countries.length === 1 ? setCountryDetail(countries[0]):''
         }
+        <Detail country={countryDetail}/>
       </div>
     </div>
   );
