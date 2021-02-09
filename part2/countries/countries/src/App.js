@@ -7,19 +7,24 @@ function App() {
   const url = 'https://restcountries.eu/rest/v2/name'
   const [countries, setCountries] = useState([])
   const [name, setName] = useState('')
-  const [countryDetail, setCountryDetail] = useState(null)
+  const [countryDetail, setCountryDetail] = useState(undefined)
 
   useEffect(() => {
-    if (name){
+    console.log(process.env)
 
+    if (name){
       axios.get(`${url}/${name}`)
       .then(response => {
         const data = response.data
         console.log(data)
         setCountries(data)
+        if(data.length === 1){
+          setCountryDetail(data[0])
+        }
       })
     }
   }, [name])
+
 
 
   return (
@@ -39,9 +44,9 @@ function App() {
            </div>
         ))
         :
-        countries.length === 1 ? setCountryDetail(countries[0]):''
+        ''
         }
-        <Detail country={countryDetail}/>
+        {countryDetail? (<Detail country={countryDetail}/>):""}
       </div>
     </div>
   );
