@@ -1,9 +1,9 @@
 import React from 'react';
 import person from '../services/person';
 import personService from '../services/person'
+import { NotificationType } from './Notification';
 
-function PersonForm({newName, newNumber, setNewName, setNewNumber, setPersons, persons}) {
-
+function PersonForm({newName, newNumber, setNewName, setNewNumber, setPersons, persons, setMessage}) {
     const saveContact = (event) => {
         event.preventDefault();
         
@@ -23,6 +23,10 @@ function PersonForm({newName, newNumber, setNewName, setNewNumber, setPersons, p
           personService.create({name: newName, number: newNumber})
           .then(newContact => {
               setPersons(persons.concat(newContact))
+              setMessage({message: `Added ${newName}`, type: NotificationType.success})
+              setTimeout(() => {
+                setMessage(null)
+              }, 5000);
           })     
         }
         setNewName('');
